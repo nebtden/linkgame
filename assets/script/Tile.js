@@ -27,12 +27,27 @@ cc.Class({
             default: null,
             type:Number,
         },
+        isBlack:{
+             default: null,
+            type:Number,
+        },
+        x:{
+            default: null,
+            type:Number,
+        },
+        y:{
+            default: null,
+            type:Number,
+        },
         clickEffect:cc.AudioClip
     },
 
     // use this for initialization
     onLoad: function () {
         var self = this;
+         // var simonGame = this.getComponent(cc.simonGame);
+        var simonGame = cc.find("../assets/script/simonGame");
+
         this.node.on(cc.Node.EventType.TOUCH_START,function(event){
             // if(!self.game.isCal){
             //     cc.audioEngine.playEffect(self.clickEffect);
@@ -41,25 +56,75 @@ cc.Class({
             //     Global.combo = 0;
             //     cc.audioEngine.playEffect(this.addCoin);
             //     self.setNum(parseInt(self.numLabel.string)+1,true,false);
-            // }
+            // } 
             // this.myMove();
             self.myMove();
+            
+ 
 
         }, this.node);
         this.myCheck();
     },
     //检查排列是否准确
     myCheck:function(){
-
+        // alert(12);
+        console.log(12);
 
     },
 
 
     myMove:function(){
-        console.log(222);
-        console.log(this.myindex);
+         //console.log(222);
+        // console.log(this.myindex);
+        //判断方向，可点击的方向
+        // if(this.node.)
+            
 
-        this.node.x += this.node.width+5;
+        
+        var myindex = this.myindex;
+        var x = myindex.x;
+        var y = myindex.y;
+        
+        console.log(x);
+        console.log(y);
+        //判断下
+        console.log('Global.imgs[x][y]');
+        console.log(Global.imgs[x][y]);
+        console.log(Global.imgs[x][y+1]);
+         Global.imgs[x][y].myindex = 0;
+        if(x-1>=0 && Global.imgs[x-1][y].myindex==0){
+            console.log('Global.tiles[x+1][y]');
+            console.log(Global.tiles[x-1][y]);
+            this.myindex = {'x':x-1,'y':y-1}
+            this.node.y -= this.node.height+5;
+            return false;
+        }
+        
+        //上
+        if(x+1<=4 && Global.imgs[x+1][y].myindex==0){
+            console.log('Global.tiles[x+1][y]');
+            console.log(Global.tiles[x+1][y]);
+            this.myindex = {'x':x+1,'y':y}
+            this.node.y += this.node.height+5;
+            return false;
+        }
+        
+        //左
+        if(y-1>=0 && Global.imgs[x][y-1].myindex==0){
+            this.myindex = {'x':x,'y':y-1}
+            this.node.x -= this.node.width+5;
+            return false;
+        }
+        
+        if(y+1<=4 && Global.imgs[x][y+1].myindex==0){
+            console.log('Global.tiles[x][y+1]');
+            console.log(Global.tiles[x][y+1]);
+            this.myindex = {'x':x,'y':y+1}
+            this.node.x += this.node.width+5;
+            return false;
+        }
+       
+        
         // this.node.y += this.node.height/2;
         // this.accLeft =false;
         // var action =  cc.moveTo(1, cc.v2(0, this.node.width+5 )).easing(cc.easeCubicActionOut());

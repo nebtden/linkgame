@@ -1,4 +1,5 @@
 module.exports = {
-    score: 0,
-    combo:0,
+    imgs: null,
+    tiles: null,
 };
+

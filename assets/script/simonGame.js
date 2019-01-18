@@ -18,12 +18,9 @@ cc.Class({
             default:null,
             type:cc.Prefab
         },
-        imgs:{
-            default:null,
-            type:Array
-        },
+
         count:{
-            default:1,
+            default:0,
             type:Number
         },
         bg:{
@@ -40,38 +37,43 @@ cc.Class({
         },
     },
     
-        //检查排列是否准确
-    myCheck:function(){ 
-        for(var x=0;x<5;x++){
-            for(var y=0;y<5;y++){
-                myindex = tile.getComponent("Tile").myindex= x;
-            }
-        }
-        
-    },
+ 
 
     onLoad: function () {
         // 播放背景音乐
 
         // 初始化方块数组
-        this.tiles = [
+        Global.tiles = [
             [null,null,null,null,null],
             [null,null,null,null,null],
             [null,null,null,null,null],
             [null,null,null,null,null],
             [null,null,null,null,null]
-        ]; 
- 
-      
+        ];
+
+        //初始化索引
+        Global.imgs = [
+            [null,null,null,null,null],
+            [null,null,null,null,null],
+            [null,null,null,null,null],
+            [null,null,null,null,null],
+            [null,null,null,null,null]
+        ];
+
+
         for(var x=0;x<5;x++){
             for(var y=0;y<5;y++){
                 this.count +=1;
+
                 
-                if(x==4 && y==4){
-                    break;
+                if(x==4 && y==4){ 
+                   
+                    Global.imgs[x][y] ={'myindex':0};
+                     break;
                 }
+                Global.imgs[x][y] ={'myindex':this.count};
                 // 把图片生成写到系统，最后一个，空白。。
-                var   tile = this.tiles[x][y] = cc.instantiate(this.tilePre);
+                var   tile = Global.tiles[x][y] = cc.instantiate(this.tilePre);
                 console.log(tile)
                 tile.width = (this.tileBg.width-30)/5;
                 tile.height = (this.tileBg.height-30)/5;
@@ -79,12 +81,16 @@ cc.Class({
                 // tile.setPosition();
                 tile.setPosition(position);
                 this.tileBg.addChild(tile);
-                tile.getComponent("Tile").myindex= this.count;
+                tile.getComponent("Tile").myindex= {'x':x,'y':y};
+                tile.getComponent("Tile").isBlack= 1;
+                // console.log('this.imgs')
+                // console.log(this.imgs)
+     
                 if(x==1 && y==1){
-                    var myself = this;
+
                     cc.loader.loadRes("images/yun", cc.SpriteFrame, function (err, spriteFrame) {
-                        console.log(myself.tiles[1][1])
-                        myself.tiles[1][1].getComponent(cc.Sprite).spriteFrame = spriteFrame;
+                        console.log(Global.tiles[1][1])
+                        Global.tiles[1][1].getComponent(cc.Sprite).spriteFrame = spriteFrame;
                     }); 
                 }
                 if(x==2 && y==2){
@@ -94,13 +100,7 @@ cc.Class({
                         that.getComponent(cc.Sprite).spriteFrame = spriteFrame;
                     });
                 }
-                if(x==3 && y==3){
 
-                    cc.loader.loadRes("images/yun", cc.SpriteFrame, function (err, spriteFrame) {
-
-                        tile.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-                    });
-                }
 
             }
         }
@@ -167,7 +167,9 @@ cc.Class({
                 this.tileBg.addChild(tile);
             }
         }*/
-    }
+    },
 
-    // update (dt) {},
+     update (dt) {
+         // this.myCheck()
+     },
 });
