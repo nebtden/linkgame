@@ -89,36 +89,48 @@ cc.Class({
         console.log(y);
         //判断下
         console.log('Global.imgs[x][y]');
-        console.log(Global.imgs[x][y]);
-        console.log(Global.imgs[x][y+1]);
-         Global.imgs[x][y].myindex = 0;
+        var count = 0;
+        
+         //【3,4】
+         
+         //下
         if(x-1>=0 && Global.imgs[x-1][y].myindex==0){
+            count = Global.imgs[x][y].myindex;
+            Global.imgs[x][y].myindex = 0;
             console.log('Global.tiles[x+1][y]');
             console.log(Global.tiles[x-1][y]);
-            this.myindex = {'x':x-1,'y':y-1}
+            Global.imgs[x-1][y].myindex =count;
+            this.myindex = {'x':x-1,'y':y}
             this.node.y -= this.node.height+5;
             return false;
         }
         
         //上
         if(x+1<=4 && Global.imgs[x+1][y].myindex==0){
+            count = Global.imgs[x][y].myindex;
+            Global.imgs[x][y].myindex = 0;
             console.log('Global.tiles[x+1][y]');
             console.log(Global.tiles[x+1][y]);
+            Global.imgs[x+1][y].myindex =count;
             this.myindex = {'x':x+1,'y':y}
             this.node.y += this.node.height+5;
             return false;
         }
-        
+         
         //左
         if(y-1>=0 && Global.imgs[x][y-1].myindex==0){
+            count = Global.imgs[x][y].myindex;
+            Global.imgs[x][y].myindex = 0;
             this.myindex = {'x':x,'y':y-1}
+            Global.imgs[x][y-1].myindex =count;
             this.node.x -= this.node.width+5;
             return false;
         }
         
         if(y+1<=4 && Global.imgs[x][y+1].myindex==0){
-            console.log('Global.tiles[x][y+1]');
-            console.log(Global.tiles[x][y+1]);
+            count = Global.imgs[x][y].myindex;
+         Global.imgs[x][y].myindex = 0;
+             Global.imgs[x][y+1].myindex =count;
             this.myindex = {'x':x,'y':y+1}
             this.node.x += this.node.width+5;
             return false;
